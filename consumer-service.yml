@@ -68,7 +68,7 @@ logging:
     io.github.resilience4j: INFO
 
 experiment:
-  message: 实验五配置刷新前
+  message: 实验五配置刷新后
 
 consumer:
-  experiment-message: 消费者配置刷新前
+  experiment-message: 消费者配置刷新后

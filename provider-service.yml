@@ -28,7 +28,7 @@ management:
         include: health,info,refresh,busrefresh
 
 experiment:
-  message: 实验五配置刷新前
+  message: 实验五配置刷新后
 
 provider:
-  experiment-message: 提供者配置刷新前
+  experiment-message: 提供者配置刷新后
