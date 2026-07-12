@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: consumer-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  cloud:
+    bus:
+      enabled: true
+      destination: springCloudBus
+
+eureka:
+  instance:
+    ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: http://localhost:18000/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      circuitBreakerA:
+        failure-rate-threshold: 30
+        sliding-window-type: TIME_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+      circuitBreakerB:
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 30
+        slow-call-duration-threshold: 2s
+        sliding-window-type: TIME_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+  bulkhead:
+    instances:
+      bulkheadA:
+        max-concurrent-calls: 10
+        max-wait-duration: 20ms
+  ratelimiter:
+    instances:
+      rateLimiterA:
+        limit-refresh-period: 2s
+        limit-for-period: 5
+        timeout-duration: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh,busrefresh,metrics,circuitbreakerevents,ratelimiterevents,bulkheadevents
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    io.github.resilience4j: INFO
+
+experiment:
+  message: 实验五配置刷新前
+
+consumer:
+  experiment-message: 消费者配置刷新前

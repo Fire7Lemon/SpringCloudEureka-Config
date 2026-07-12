@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: provider-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  cloud:
+    bus:
+      enabled: true
+      destination: springCloudBus
+
+eureka:
+  instance:
+    ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: http://localhost:18000/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh,busrefresh
+
+experiment:
+  message: 实验五配置刷新前
+
+provider:
+  experiment-message: 提供者配置刷新前
